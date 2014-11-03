@@ -1,5 +1,6 @@
-require "opal"
+require "bundler"
 require "rspec/core/rake_task"
+Bundler.require
 
 RSpec::Core::RakeTask.new
 
@@ -31,4 +32,4 @@ task :launch do
   `open public/index.html`
 end
 
-task :default => [:spec, "build:lib", "build:app"]
+task :default => ["build:lib", "build:app"]
