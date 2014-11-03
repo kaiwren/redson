@@ -13,4 +13,4 @@
 *.a
 mkmf.log
 
-/public/build.js
+/public/out/
