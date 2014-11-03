@@ -32,4 +32,7 @@ task :launch do
   `open public/index.html`
 end
 
+desc "guard task"
+task :build => ["build:lib", "build:app"]
+
 task :default => ["build:lib", "build:app"]

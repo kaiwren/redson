@@ -5,7 +5,11 @@ class Opal001::Widget
     @this_element = template_element.clone
   end
   
-  def append
+  def this_element
+    @this_element
+  end
+  
+  def render
     @target_element.append(@this_element)
   end
 end
