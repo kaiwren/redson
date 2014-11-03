@@ -1,11 +1,11 @@
 module Hello
   class Greeter < Opal001::Widget
-    def initialize(target_element, template_element)
-      super(target_element, template_element)
-      @input_element = @this_element.find(".o-input")
-      @output_element = @this_element.find(".o-output")
+    def initialize(target_element)
+      super(target_element)
+      @input_element = @this_element.find!(".input")
+      @output_element = @this_element.find!(".output")
       @input = ""
- 
+
       @input_element.on(:keyup) do |event|
         input_changed_handler(event)
       end
@@ -17,6 +17,3 @@ module Hello
     end
   end
 end
-
-require "greeter/model"
-require "greeter/view"

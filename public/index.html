@@ -7,11 +7,16 @@
     <script src="out/hello.js"></script>
   </head>
   <body>
-    <div id="target"></div>
-    <div id="templates" style="display: none;">
-      <div class="o-greeter-template">
-        <input class="o-input"/>
-        <span class="o-output"/>
+    <div id="greeter"></div>
+    <div id="calculator"></div>
+    <div id="o-templates" style="display: none;">
+      <div class="o-template greeter">
+        <input class="o-element input"/>
+        <span class="o-element output"/>
+      </div>      
+      <div class="o-template calculator">
+        <span class="o-element output"/>
+        <span class="o-element button-1">1</span>
       </div>
     </div>
   </body>
