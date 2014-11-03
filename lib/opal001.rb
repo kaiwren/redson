@@ -1,7 +1,0 @@
-require "opal"
-require "opal-jquery"
-require "opal001/version"
-require "opal001/element"
-require "opal001/model"
-require "opal001/view"
-require "opal001/widget"

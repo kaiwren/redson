@@ -1,2 +1,2 @@
-require_relative "../lib/opal001"
+require_relative "../lib/redson"
 require_relative "../app/hello"

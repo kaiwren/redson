@@ -1,4 +1,4 @@
-class Opal001::Widget
+class Redson::Widget
   TEMPLATES_ELEMENT_MATCHER = "#o-templates"
   TEMPLATE_ELEMENT_MATCHER = ".o-template"
   

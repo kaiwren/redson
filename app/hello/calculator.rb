@@ -1,5 +1,5 @@
 module Hello
-  class Calculator < Opal001::Widget
+  class Calculator < Redson::Widget
     def initialize(target_element, template_element)
       super(target_element, template_element)
       @input_element = @this_element.find(".o-input")

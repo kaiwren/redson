@@ -1,3 +1,3 @@
-module Opal001
+module Redson
   VERSION = "0.0.1"
 end

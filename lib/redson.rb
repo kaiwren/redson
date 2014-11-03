@@ -1,0 +1,7 @@
+require "opal"
+require "opal-jquery"
+require "redson/version"
+require "redson/element"
+require "redson/model"
+require "redson/view"
+require "redson/widget"

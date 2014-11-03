@@ -11,8 +11,8 @@ namespace :build do
     env = Opal::Environment.new
     env.append_path "lib"
   
-    File.open("public/out/opal001.js", "w+") do |out|
-      out << env["opal001"].to_s
+    File.open("public/out/redson.js", "w+") do |out|
+      out << env["redson"].to_s
     end
   end
 

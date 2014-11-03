@@ -1,5 +1,5 @@
 module Hello
-  class Greeter < Opal001::Widget
+  class Greeter < Redson::Widget
     def initialize(target_element)
       super(target_element)
       @input_element = @this_element.find!(".input")
