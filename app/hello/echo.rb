@@ -1,5 +1,10 @@
+require File.expand_path(File.join(File.dirname(__FILE__), "echo", "model"))
+require File.expand_path(File.join(File.dirname(__FILE__), "echo", "view"))
+
 module Hello
-  class Greeter < Redson::Widget
+  class Echo < Redson::Widget
+    target_element_matcher '#greeter'
+    
     def initialize(target_element)
       super(target_element)
       @input_element = @this_element.find!(".input")

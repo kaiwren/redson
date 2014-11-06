@@ -1,9 +1,9 @@
 module Hello
 end
 
-require "hello/greeter"
+require "hello/echo"
 
 Document.ready? do
   puts "Hello! Using Redson Version: #{Redson::VERSION}"
-  Hello::Greeter.new(Element["#greeter"]).render
+  Hello::Echo.new(Element["#echo"]).render
 end
