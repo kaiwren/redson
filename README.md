@@ -30,7 +30,7 @@ Here's what it looks like at the moment. WIP etc.
 ```
 
 ```ruby
-class Echo < Redson::Widget
+class Hello::Echo < Redson::Widget
   target_element_matcher '#echo'
   bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
 
