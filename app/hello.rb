@@ -4,6 +4,6 @@ end
 require "hello/echo"
 
 Document.ready? do
-  puts "Hello! Using Redson Version: #{Redson::VERSION}"
+  puts "Hello! Using Redson Version: #{Redson::VERSION} #{Redson::COMPILE_TIMESTAMP}"
   Hello::Echo.new(Element["#echo"]).render
 end

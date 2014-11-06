@@ -7,5 +7,7 @@ end
 
 guard 'rake', :task => 'build' do
   watch(%r{app/.+\.(rb|js)$})
-  watch(%r{lib/.+\.(rb|js)$})
+  watch(%r{lib/ext/.+\.(rb|js)$})
+  watch(%r{lib/redson/.+\.(rb|js)$})
+  watch('lib/redson.rb')
 end
