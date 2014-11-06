@@ -9,18 +9,38 @@ It's pretty much an experiment at the moment.
 
 Here's what it looks like at the moment. WIP etc.
 
+```xml
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="lib/jquery.min.js"></script>
+    <script src="out/redson.js"></script>
+    <script src="out/hello.js"></script>
+  </head>
+  <body>
+    <div id="echo"></div>
+    <div id="r-templates" style="display: none;">
+      <div class="r-template echo">
+        <input class="input"/>
+        <span class="output"/>
+      </div>      
+    </div>
+  </body>
+</html>
+```
+
 ```ruby
-  class Echo < Redson::Widget
-    target_element_matcher '#greeter'
-    bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
+class Echo < Redson::Widget
+  target_element_matcher '#echo'
+  bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
 
-    def initialize(target_element)
-      super(target_element)
-      @output_element = @this_element.find!(".output")
-    end
-
-    def input_changed_handler(event)
-      @output_element.text(@bound_values['input'])
-    end
+  def initialize(target_element)
+    super(target_element)
+    @output_element = @this_element.find!(".output")
   end
+
+  def input_changed_handler(event)
+    @output_element.text(@bound_values['input'])
+  end
+end
 ```
