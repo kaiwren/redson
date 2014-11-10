@@ -18,24 +18,29 @@ Here's what it looks like at the moment. WIP etc.
     <script src="out/hello.js"></script>
   </head>
   <body>
-    <div id="echo"></div>
+    <div id="echoes">
+      <div class="echo"></div>
+      <hr/>
+      <div class="echo"></div>
+    </div>
     <div id="r-templates" style="display: none;">
       <div class="r-template echo">
         <input class="input"/>
         <span class="output"/>
-      </div>      
+      </div>
     </div>
   </body>
 </html>
 ```
 
 ```ruby
-class Hello::Echo < Redson::Widget
-  set_target_element_matcher '#echo'
+class Hello::Echo::Widget < Redson::Widget
+  set_target_element_matcher '#echoes .echo'
   bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
 
   def initialize
-    @output_element = @this_element.find!(".output")
+    super
+    @output_element = view.this_element.find!(".output")
   end
 
   def input_changed_handler(event)
