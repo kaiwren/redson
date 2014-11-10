@@ -31,11 +31,10 @@ Here's what it looks like at the moment. WIP etc.
 
 ```ruby
 class Hello::Echo < Redson::Widget
-  target_element_matcher '#echo'
+  set_target_element_matcher '#echo'
   bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
 
-  def initialize(target_element)
-    super(target_element)
+  def initialize
     @output_element = @this_element.find!(".output")
   end
 
