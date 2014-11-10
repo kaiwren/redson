@@ -4,25 +4,18 @@ class Redson::Widget
   ELEMENT_MATCHER = ".r-element"
   INPUT_TYPE_ATTRIBUTE_MATCHER = "[data-rs-type='input']"
   
-  DEFAULTS = 'defaults'
-  BINDINGS = 'bindings'
+  KEY_DEFAULTS = 'defaults'
+  KEY_BINDINGS = 'bindings'
+  KEY_WIDGET_NAME = 'widget_name'
+  KEY_TEMPLATE_ELEMENT_MATCHER = 'template_element_matcher'
+  KEY_TARGET_ELEMENT_MATCHER = 'target_element_matcher'
   
   def self.inherited(base_klass)
-    base_klass.class_eval do
-      initialize_widget_klass
-    end
+    base_klass.initialize_widget_klass
   end
   
-  def self.initialize_widget_klass
-    @rs_widget_state = {}
-    @rs_widget_state[DEFAULTS] = {}
-    @rs_widget_state[BINDINGS] = []
-    @rs_widget_state['widget_name'] = self.name.split(/::/).last.downcase
-    @rs_widget_state[DEFAULTS]['template_element_matcher'] = "#{TEMPLATE_ELEMENT_MATCHER}.#{widget_name}"
-  end
-    
-  def initialize(target_element)
-    @target_element = target_element
+  def initialize
+    @target_element = Element.find!(target_element_matcher)
     @template_element = Element.find!(template_element_matcher)
     @this_element = template_element.clone
     @bound_values = {}
@@ -59,34 +52,6 @@ class Redson::Widget
     @target_element.append(@this_element)
   end
   
-  def self.bind(element_matcher, options)
-    @rs_widget_state[BINDINGS] << Binding.new(element_matcher, options)
-  end
-  
-  def self.widget_name
-    @rs_widget_state['widget_name']
-  end
-  
-  def self.bindings
-    @rs_widget_state[BINDINGS]
-  end
-  
-  def self.target_element_matcher(matcher)
-    @rs_widget_state[DEFAULTS]['target_element_matcher'] = matcher
-  end
-
-  def self.target_element_matcher
-    @rs_widget_state[DEFAULTS]['target_element_matcher']
-  end
-
-  def self.template_element_matcher(matcher)
-    @rs_widget_state[DEFAULTS]['template_element_matcher'] = matcher
-  end
-
-  def self.template_element_matcher
-    @rs_widget_state[DEFAULTS]['template_element_matcher']
-  end
-  
   def widget_name
     self.class.widget_name
   end
@@ -97,5 +62,44 @@ class Redson::Widget
   
   def template_element_matcher
     self.class.template_element_matcher
+  end
+  
+  def self.initialize_widget_klass
+    @rs_widget_state = {}
+    @rs_widget_state[KEY_DEFAULTS] = {}
+    @rs_widget_state[KEY_BINDINGS] = []
+    @rs_widget_state[KEY_WIDGET_NAME] = self.name.split(/::/).last.downcase
+    @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER] = "#{TEMPLATE_ELEMENT_MATCHER}.#{widget_name}"
+  end
+  
+  def self.bind(element_matcher, options)
+    @rs_widget_state[KEY_BINDINGS] << Binding.new(element_matcher, options)
+  end
+  
+  def self.widget_name
+    @rs_widget_state[KEY_WIDGET_NAME]
+  end
+  
+  def self.bindings
+    @rs_widget_state[KEY_BINDINGS]
+  end
+    
+  def self.target_element_matcher
+    @rs_widget_state[KEY_DEFAULTS][KEY_TARGET_ELEMENT_MATCHER]
+  end
+  
+  # We're using the 'set_' prefix to distinguish getters and setters
+  # Using the exact same name seems to confuse the Opal compiler,
+  # as does differentiating using '='
+  def self.set_target_element_matcher(matcher)
+    @rs_widget_state[KEY_DEFAULTS][KEY_TARGET_ELEMENT_MATCHER] = matcher
+  end
+
+  def self.template_element_matcher
+    @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER]
+  end
+  
+  def self.template_element_matcher=(matcher)
+    @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER] = matcher
   end
 end

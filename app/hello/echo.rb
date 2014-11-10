@@ -3,11 +3,11 @@ require File.expand_path(File.join(File.dirname(__FILE__), "echo", "view"))
 
 module Hello
   class Echo < Redson::Widget
-    target_element_matcher '#greeter'
+    set_target_element_matcher '#echo'
     bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
     
-    def initialize(target_element)
-      super(target_element)
+    def initialize
+      super
       @output_element = @this_element.find!(".output")
     end
 
