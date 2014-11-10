@@ -14,8 +14,8 @@ class Redson::Widget
     base_klass.initialize_widget_klass
   end
   
-  def initialize
-    @target_element = Element.find!(target_element_matcher)
+  def initialize(target_element = nil)
+    @target_element = target_element || Element.find!(target_element_matcher)
     @template_element = Element.find!(template_element_matcher)
     @this_element = template_element.clone
     @bound_values = {}
@@ -62,6 +62,14 @@ class Redson::Widget
   
   def template_element_matcher
     self.class.template_element_matcher
+  end
+  
+  def self.instantiate_all_in_document
+    widgets = []
+    Element.find(target_element_matcher).each do |target|
+      widgets << self.new(target)
+    end
+    widgets
   end
   
   def self.initialize_widget_klass
