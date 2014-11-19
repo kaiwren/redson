@@ -12,16 +12,19 @@ class Redson::Widget
   KEY_VIEW_KLASS_NAME = 'view_klass_name'
   KEY_MODEL_KLASS_NAME = 'model_klass_name'
   
+  attr_reader :view
+  
   def self.inherited(base_klass)
     base_klass.initialize_widget_klass
   end
   
   def initialize(target_element = nil)
+    @model = model_klass.new
     @view = view_klass.new(
               target_element || Element.find!(target_element_matcher),
-              Element.find!(template_element_matcher)
+              Element.find!(template_element_matcher),
+              @model
               )
-    @bound_values = {}
     setup_bindings
   end
   
@@ -31,12 +34,8 @@ class Redson::Widget
     end
   end
   
-  def bind(element_matcher, to, event_name_to_update_on, notify)
-    element = view.this_element.find!(element_matcher)
-    element.on(event_name_to_update_on) do |event|
-      @bound_values[to] = element.value
-      self.method(notify).call(event)
-    end
+  def bind(element_matcher, to, event_name_to_update_on, notification_handler)
+    view.bind(element_matcher, to, event_name_to_update_on, notification_handler)
   end
     
   def render
@@ -58,9 +57,9 @@ class Redson::Widget
   def view_klass
     self.class.view_klass
   end
-  
-  def view
-    @view
+
+  def model_klass
+    self.class.model_klass
   end
   
   def self.instantiate_all_in_document
@@ -78,7 +77,7 @@ class Redson::Widget
     @rs_widget_state[KEY_WIDGET_NAME] = self.name.split(/::/)[-2].downcase
     @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER] = "#{TEMPLATE_ELEMENT_MATCHER}.#{widget_name}"
     @rs_widget_state[KEY_DEFAULTS][KEY_VIEW_KLASS_NAME] = "#{self.name}".sub("::Widget", "::View")
-    @rs_widget_state[KEY_DEFAULTS][KEY_MODEL_KLASS_NAME] = "#{self.name}".sub("::Widget", "Model")
+    @rs_widget_state[KEY_DEFAULTS][KEY_MODEL_KLASS_NAME] = "#{self.name}".sub("::Widget", "::Model")
   end
   
   def self.bind(element_matcher, options)
@@ -112,16 +111,22 @@ class Redson::Widget
   def self.set_template_element_matcher(matcher)
     @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER] = matcher
   end
-    
-  def self.set_view_klass(klass)
-    @rs_widget_state[KEY_DEFAULTS][KEY_VIEW_KLASS_NAME] = klass
-  end
-  
+      
   def self.view_klass
     # TODO
     # Because Kernel.const_get("Foo::Bar::View") doesn't work on Opal
-    @view_klass ||= @rs_widget_state[KEY_DEFAULTS][KEY_VIEW_KLASS_NAME].split(
-    "::").inject(Kernel) do |const, name| 
+    @view_klass ||= load_fully_qualified_constant(@rs_widget_state[KEY_DEFAULTS][KEY_VIEW_KLASS_NAME])
+  end
+  
+  def self.model_klass
+    # TODO
+    # Because Kernel.const_get("Foo::Bar::View") doesn't work on Opal
+    @model_klass ||= load_fully_qualified_constant(@rs_widget_state[KEY_DEFAULTS][KEY_MODEL_KLASS_NAME])
+  end
+  
+  private
+  def self.load_fully_qualified_constant(constant_string)
+    constant_string.split("::").inject(Kernel) do |const, name| 
       const.const_get(name)
     end
   end

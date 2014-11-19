@@ -34,17 +34,23 @@ Here's what it looks like at the moment. WIP etc.
 ```
 
 ```ruby
-class Hello::Echo::Widget < Redson::Widget
-  set_target_element_matcher '#echoes .echo'
-  bind '.input', :to => 'input', :update_on => 'keyup', :notify => :input_changed_handler
-
-  def initialize
-    super
-    @output_element = view.this_element.find!(".output")
+module Echo
+  class Widget < Redson::Widget
+    set_target_element_matcher '#echoes .echo'
+    bind '.input', :to => 'input', :notify_on => 'keyup', :notification_handler => :input_keyup_handler    
   end
-
-  def input_changed_handler(event)
-    @output_element.text(@bound_values['input'])
+  
+  class Model < Redson::Model
+  end
+  
+  class View < Redson::View
+    def load_view_elements
+      @output_element = this_element.find!(".output")
+    end
+    
+    def input_keyup_handler(event)
+      @output_element.text(model['input'])
+    end
   end
 end
 ```

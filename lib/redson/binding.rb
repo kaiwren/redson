@@ -3,7 +3,7 @@ module Redson
     def initialize(element_matcher, options)
       @element_matcher = element_matcher
       @options = options
-      @options[:update_on] ||= 'keyup'
+      @options[:notify_on] ||= 'keyup'
       validate!
     end
     
@@ -11,16 +11,16 @@ module Redson
       @element_matcher
     end
     
-    def update_on
-      @options[:update_on]
+    def notify_on
+      @options[:notify_on]
     end
     
     def to
       @options[:to]
     end
     
-    def notify
-      @options[:notify]
+    def notification_handler
+      @options[:notification_handler]
     end
     
     def validate!
@@ -28,7 +28,7 @@ module Redson
     end
     
     def create_for(widget)
-      widget.bind(element_matcher, to, update_on, notify)
+      widget.bind(element_matcher, to, notify_on, notification_handler)
     end
   end
 end
