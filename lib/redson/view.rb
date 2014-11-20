@@ -2,10 +2,10 @@ class Redson::View
   attr_reader :target_element, :this_element, 
               :template_element, :model
   
-  def initialize(target_element, template_element, model)
+  def initialize(model, target_element, template_element)
     @target_element = target_element
     @template_element = template_element
-    @this_element = template_element.clone
+    @this_element = template_element ? template_element.clone : target_element
     @model = model
     initialize_view_elements
   end

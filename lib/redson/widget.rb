@@ -11,6 +11,7 @@ class Redson::Widget
   KEY_TARGET_ELEMENT_MATCHER = 'target_element_matcher'
   KEY_VIEW_KLASS_NAME = 'view_klass_name'
   KEY_MODEL_KLASS_NAME = 'model_klass_name'
+  KEY_USE_TEMPLATE = 'use_template'
   
   attr_reader :view
   
@@ -19,11 +20,12 @@ class Redson::Widget
   end
   
   def initialize(target_element = nil)
+    puts using_template?
     @model = model_klass.new
     @view = view_klass.new(
+              @model,
               target_element || Element.find!(target_element_matcher),
-              Element.find!(template_element_matcher),
-              @model
+              using_template? ? Element.find!(template_element_matcher) : nil
               )
     setup_bindings
   end
@@ -53,6 +55,10 @@ class Redson::Widget
   def template_element_matcher
     self.class.template_element_matcher
   end
+
+  def using_template?
+    self.class.using_template?
+  end
   
   def view_klass
     self.class.view_klass
@@ -75,6 +81,7 @@ class Redson::Widget
     @rs_widget_state[KEY_DEFAULTS] = {}
     @rs_widget_state[KEY_BINDINGS] = []
     @rs_widget_state[KEY_WIDGET_NAME] = self.name.split(/::/)[-2].downcase
+    @rs_widget_state[KEY_DEFAULTS][KEY_USE_TEMPLATE] = true
     @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER] = "#{TEMPLATE_ELEMENT_MATCHER}.#{widget_name}"
     @rs_widget_state[KEY_DEFAULTS][KEY_VIEW_KLASS_NAME] = "#{self.name}".sub("::Widget", "::View")
     @rs_widget_state[KEY_DEFAULTS][KEY_MODEL_KLASS_NAME] = "#{self.name}".sub("::Widget", "::Model")
@@ -111,7 +118,15 @@ class Redson::Widget
   def self.set_template_element_matcher(matcher)
     @rs_widget_state[KEY_DEFAULTS][KEY_TEMPLATE_ELEMENT_MATCHER] = matcher
   end
-      
+
+  def self.disable_template!
+    @rs_widget_state[KEY_DEFAULTS][KEY_USE_TEMPLATE] = false
+  end
+  
+  def self.using_template?
+    @rs_widget_state[KEY_DEFAULTS][KEY_USE_TEMPLATE]
+  end
+        
   def self.view_klass
     # TODO
     # Because Kernel.const_get("Foo::Bar::View") doesn't work on Opal
