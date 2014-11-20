@@ -7,11 +7,11 @@ class Redson::View
     @template_element = template_element
     @this_element = template_element.clone
     @model = model
-    load_view_elements
+    initialize_view_elements
   end
   
-  def load_view_elements
-    raise "load_view_elements must been overriden in #{self.class}"
+  def initialize_view_elements
+    raise "initialize_view_elements must be overriden in #{self.class}"
   end
   
   def render

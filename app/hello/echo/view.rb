@@ -1,7 +1,7 @@
 module Hello
   module Echo
     class View < Redson::View
-      def load_view_elements
+      def initialize_view_elements
         @output_element = this_element.find!(".output")
       end
       
