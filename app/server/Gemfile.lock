@@ -1,10 +1,3 @@
-PATH
-  remote: ./../../
-  specs:
-    redson (0.0.1)
-      opal-jquery
-      opal-rails
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,7 +29,15 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
+    coffee-rails (4.0.1)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.0)
+    coffee-script (2.3.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.8.0)
     erubis (2.7.0)
+    execjs (2.2.1)
     hike (1.2.3)
     i18n (0.6.11)
     jquery-rails (3.1.2)
@@ -98,6 +99,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    turbolinks (2.3.0)
+      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
@@ -106,6 +109,8 @@ PLATFORMS
 
 DEPENDENCIES
   jquery-rails
+  opal-jquery
+  opal-rails
   rails (= 4.1.6)
-  redson!
   sqlite3
+  turbolinks
