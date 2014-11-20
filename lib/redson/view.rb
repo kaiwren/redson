@@ -14,6 +14,10 @@ class Redson::View
     raise "initialize_view_elements must be overriden in #{self.class}"
   end
   
+  def find_element!(matcher)
+    this_element.find!(matcher)
+  end
+  
   def render
     target_element.append(this_element)
   end

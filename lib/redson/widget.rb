@@ -20,7 +20,6 @@ class Redson::Widget
   end
   
   def initialize(target_element = nil)
-    puts using_template?
     @model = model_klass.new
     @view = view_klass.new(
               @model,

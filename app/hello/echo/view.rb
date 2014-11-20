@@ -2,7 +2,7 @@ module Hello
   module Echo
     class View < Redson::View
       def initialize_view_elements
-        @output_element = this_element.find!(".output")
+        @output_element = find_element!(".output")
       end
       
       def input_keyup_handler(event)
