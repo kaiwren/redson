@@ -2,22 +2,13 @@
 
 Redson is a lightweight client side MVC component framework written in Ruby specifically for Rails applications. It uses the Opal Ruby to js compiler.
 
-It builds on top of jQuery's proven cross-platform implementations of async http calls, DOM lookup+manipulation and the observer pattern to ensure compatibility and performance.
+It builds on top of jQuery's proven cross-platform implementations of DOM lookup+manipulation and the observer pattern to ensure compatibility and performance.
 
-It's pretty much an experiment at the moment.
-
+I'm developing against a sample rails app, so you can look under rails-app/assets/javascripts for examples.
 
 Here's what it looks like at the moment. WIP etc.
 
 ```xml
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="lib/jquery.min.js"></script>
-    <script src="out/redson.js"></script>
-    <script src="out/hello.js"></script>
-  </head>
-  <body>
     <div id="echoes">
       <div class="echo"></div>
       <hr/>
@@ -29,8 +20,12 @@ Here's what it looks like at the moment. WIP etc.
         <span class="output"/>
       </div>
     </div>
-  </body>
-</html>
+```
+
+```javascript
+  $(document).ready(function(){
+    Opal.Echo.Widget.$render_all_in_document();
+  });
 ```
 
 ```ruby
