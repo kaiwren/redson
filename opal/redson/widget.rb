@@ -75,6 +75,12 @@ class Redson::Widget
     widgets
   end
   
+  def self.render_all_in_document
+    instantiate_all_in_document.each do |widget|
+      widget.render
+    end
+  end
+  
   def self.initialize_widget_klass
     @rs_widget_state = {}
     @rs_widget_state[KEY_DEFAULTS] = {}

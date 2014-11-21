@@ -1,0 +1,20 @@
+<h2>Simple one-way data binding demo</h2>
+<div id="echoes">
+  <div class="echo"></div>
+  <hr/>
+  <div class="echo"></div>
+</div>
+<div id="r-templates" style="display: none;">
+  <div class="r-template echo">
+    <input class="input"/>
+    <span class="output"/>
+  </div>
+</div>
+<hr/>
+<%= link_to "CRUD Students Example", students_path %>
+
+<%= javascript_tag do %>
+  $(document).ready(function(){
+    var widgets = Opal.Echo.Widget.$render_all_in_document();
+  });
+<% end %>
