@@ -5,5 +5,5 @@
 
 Document.ready? do
   puts "Hello! Using Redson Version: #{Redson::VERSION} on Opal #{RUBY_ENGINE_VERSION}"
-  Student::Widget.new(Element.find(".new_student")).render
+  Student::Widget.new(Element.find("form.new_student")).render
 end

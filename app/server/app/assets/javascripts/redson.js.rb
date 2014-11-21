@@ -1,6 +1,0 @@
-require "redson/ext/element"
-require "redson/version"
-require "redson/binding"
-require "redson/model"
-require "redson/view"
-require "redson/widget"
