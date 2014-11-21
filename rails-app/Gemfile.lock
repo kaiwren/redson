@@ -1,3 +1,10 @@
+PATH
+  remote: /Users/sidu/Work/spikes/redson
+  specs:
+    redson (0.0.1)
+      opal-jquery
+      opal-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -112,5 +119,6 @@ DEPENDENCIES
   opal-jquery
   opal-rails
   rails (= 4.1.6)
+  redson!
   sqlite3
   turbolinks

@@ -7,3 +7,4 @@ gem 'jquery-rails'
 gem 'opal-jquery'
 gem 'opal-rails'
 gem 'turbolinks'
+gem 'redson', :path => File.join(File.dirname(File.expand_path(__FILE__)), '..')
