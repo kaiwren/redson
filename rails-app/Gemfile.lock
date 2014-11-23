@@ -110,6 +110,9 @@ GEM
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uglifier (2.5.3)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
 
 PLATFORMS
   ruby
@@ -122,3 +125,4 @@ DEPENDENCIES
   redson!
   sqlite3
   turbolinks
+  uglifier
