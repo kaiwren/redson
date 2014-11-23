@@ -1,0 +1,20 @@
+<script type="text/javascript">
+  console.log(Opal.Benchmarks.$fact(5));
+  console.log(JS.Benchmarks.fact(5));
+  console.log("Running benchmarks...");
+  var suite = new Benchmark.Suite;
+
+  suite.add('Opal#factorial', function() {
+    Opal.Benchmarks.$fact(5);
+  })
+  .add('JS#factorial', function() {
+    JS.Benchmarks.fact(5);
+  })
+  .on('cycle', function(event) {
+    console.log(String(event.target));
+  })
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+  })
+  .run({ 'async': true });
+</script>
