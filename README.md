@@ -8,6 +8,7 @@ I'm developing against a sample rails app, so you can look under rails-app/asset
 
 Here's what it looks like at the moment. WIP etc.
 
+_In your HTML view_
 ```xml
     <div id="echoes">
       <div class="echo"></div>
@@ -28,6 +29,7 @@ Here's what it looks like at the moment. WIP etc.
   });
 ```
 
+_Under app/assets/javascripts in your Rails app_
 ```ruby
 module Echo
   class Widget < Redson::Widget
