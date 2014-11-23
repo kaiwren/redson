@@ -20,6 +20,7 @@ class Redson::Widget
   end
   
   def initialize(target_element = nil)
+    target_element = convert_matcher_string_to_element_if_necessary(target_element)
     @model = model_klass.new
     @view = view_klass.new(
               @model,
@@ -27,6 +28,10 @@ class Redson::Widget
               using_template? ? Element.find!(template_element_matcher) : nil
               )
     setup_bindings
+  end
+  
+  def convert_matcher_string_to_element_if_necessary(target_element)
+    target_element.is_a?(String) ? Element.find(target_element) : target_element
   end
   
   def setup_bindings

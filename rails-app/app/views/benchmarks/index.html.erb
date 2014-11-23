@@ -1,4 +1,8 @@
 <script type="text/javascript">
+  console.log("Testing all factorial implementations with n=5");
+  console.log(Opal.Benchmarks.$fact(5));
+  console.log(JS.Benchmarks.fact(5));
+  console.log(Opal.Benchmarks.$fact_inline_js(5));
   console.log("Running benchmarks, please wait...");
   var suite = new Benchmark.Suite;
 
@@ -7,6 +11,9 @@
   })
   .add('JS#factorial', function() {
     JS.Benchmarks.fact(5);
+  })
+  .add('RubyWithInlineJS#factorial', function() {
+    Opal.Benchmarks.$fact_inline_js(5);
   })
   .on('cycle', function(event) {
     console.log(String(event.target));

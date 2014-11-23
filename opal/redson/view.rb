@@ -1,13 +1,25 @@
 class Redson::View
   attr_reader :target_element, :this_element, 
-              :template_element, :model, :api_url
+              :template_element, :model, :form
+  
   
   def initialize(model, target_element, template_element)
     @target_element = target_element
     @template_element = template_element
     @this_element = template_element ? template_element.clone : target_element
     @model = model
-    setup_form if target_element.is('form')
+    if target_element.is('form')
+      @form = Redson::Form.new(target_element)
+      form.input_elements.each do |element|
+        model[element['name']] = element.value
+      end
+      form.ajaxify! do |event|
+        model.save
+      end
+      form.disable_submit_event_propagation!
+      model.api_path = form.action_attribute
+      p model
+    end
     initialize_view_elements
   end
   
@@ -15,29 +27,14 @@ class Redson::View
     raise "initialize_view_elements must be overriden in #{self.class}"
   end
   
-  def form_action_url
-  end
-  
-  def find_form
-  end
-  
-  def setup_form
-    @api_url = target_element.attr('action')
-    puts @api_url
-  end
-  
   def find_element!(matcher)
     this_element.find!(matcher)
   end
   
   def render
-    target_element.append(this_element)
+    target_element.append(this_element) unless target_element == this_element
   end
-  
-  def find_elements_marked_as_input
-    this_element.find("#{ELEMENT_MATCHER}#{INPUT_TYPE_ATTRIBUTE_MATCHER}")
-  end
-  
+      
   def bind(element_matcher, to, event_name_to_update_on, notification_handler)
     element = this_element.find!(element_matcher)
     element.on(event_name_to_update_on) do |event|

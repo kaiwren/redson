@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20141120140545) do
 
   create_table "students", force: true do |t|
     t.string   "name"
-    t.datetime "date_of_birth"
+    t.integer  "age"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

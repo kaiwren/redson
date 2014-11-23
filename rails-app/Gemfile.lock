@@ -63,6 +63,7 @@ GEM
       opal
     opal-jquery (0.2.0)
       opal (>= 0.5.0, < 1.0.0)
+    opal-json (0.0.1)
     opal-rails (0.6.3)
       jquery-rails
       opal (~> 0.6.0)
@@ -120,6 +121,7 @@ PLATFORMS
 DEPENDENCIES
   jquery-rails
   opal-jquery
+  opal-json
   opal-rails
   rails (= 4.1.6)
   redson!
