@@ -1,6 +1,6 @@
 # Redson
 
-Redson is a lightweight client side MVC component framework written in Ruby specifically for Rails applications. It uses the Opal Ruby to js compiler.
+Redson is a lightweight client side MVsomething (I can't keep up with all the MV* variations these days :P) component framework written in Ruby specifically for Rails applications. It uses the Opal Ruby to js compiler.
 
 It builds on top of jQuery's proven cross-platform implementations of DOM lookup+manipulation and the observer pattern to ensure compatibility and performance.
 
