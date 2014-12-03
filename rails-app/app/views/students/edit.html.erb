@@ -5,7 +5,10 @@
 <%= link_to 'Show', @student %> |
 <%= link_to 'Back', students_path %>
 
-Document.ready? do
-  puts "Hello! Using Redson Version: #{Redson::VERSION} on Opal #{RUBY_ENGINE_VERSION}"
-  Student::Widget.new(Element.find("form.new_student")).render
-end
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('form.edit_student').each(function(n){
+      Opal.Student.Widget.$new($(this));
+    });
+  });
+</script>

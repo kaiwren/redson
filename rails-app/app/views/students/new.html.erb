@@ -6,6 +6,8 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    Opal.Student.Widget.$new('form#new_student');
+    $('form.new_student').each(function(n){
+      Opal.Student.Widget.$new($(this));
+    });
   });
 </script>

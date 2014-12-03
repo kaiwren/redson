@@ -1,4 +1,6 @@
 class Redson::Model
+  include Redson::Observable
+  
   def self.validates_presence_of(key)
   end
     
@@ -7,7 +9,13 @@ class Redson::Model
     @_redson_state = {}
     @_redson_nested_keys = {}
     @_redson_observers = `jQuery({})`
+    @_redson_attributes_namespace = nil
     reset_errors
+    initialize_observable
+  end
+  
+  def [](key)
+    @_redson_state[key]
   end
     
   def []=(key, value)
@@ -17,6 +25,7 @@ class Redson::Model
       @_redson_state[keys[0]][keys[1]] = value
     elsif `/\[/.test(#{key})`
       keys = parse_keys(key)
+      @_redson_attributes_namespace = keys[0]
       @_redson_nested_keys[key] = keys
       @_redson_state[keys[0]] ||= {}
       @_redson_state[keys[0]][keys[1]] = value
@@ -25,8 +34,8 @@ class Redson::Model
     end
   end
   
-  def attributes
-    @_redson_state
+  def attributes_namespace
+    @_redson_attributes_namespace
   end
   
   def reset_errors
@@ -41,10 +50,6 @@ class Redson::Model
     errors.empty?
   end
   
-  def [](key)
-    @_redson_state[key]
-  end
-  
   def api_path
     @_redson_api_path
   end
@@ -55,12 +60,28 @@ class Redson::Model
   
   def save
     raise Redson::Error::ModelApiPathNotSetError.new(self) unless api_path
-    HTTP.post(api_path, :payload => @_redson_state) do |response|
-      if response.ok?
-        reset_errors
-      else
-        @_redson_server_validation_errors = response.json
-      end
+    if self['_method'] == 'patch'
+      HTTP.put(api_path, :payload => @_redson_state) { |response| process_response(response) }
+    else
+      HTTP.post(api_path, :payload => @_redson_state) { |response| process_response(response) }
+    end
+  end
+  
+  def process_response(response)
+    if response.status_code == 201
+      reset_errors
+      puts :created
+      notify_observers(:created)
+    elsif response.status_code == 200
+      reset_errors
+      puts :updated
+      notify_observers(:updated)
+    elsif response.status_code == 422
+      @_redson_server_validation_errors = response.json
+      puts :unprocessable_entity
+      notify_observers(:unprocessable_entity)
+    else
+      puts "Unhandled Response Status #{response.status_code}, expected 200, 201 or 422"
     end
   end
   
@@ -69,6 +90,6 @@ class Redson::Model
   end
   
   def inspect
-    "#{super}\napi_path: #{api_path}\nattributes:\n#{attributes.inspect}\nerrors:\n#{errors.inspect}"
+    "#{super}\napi_path: #{api_path}\nattributes:\n#{@_redson_state.inspect}\nerrors:\n#{errors.inspect}"
   end
 end

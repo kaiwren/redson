@@ -48,10 +48,14 @@ class StudentsController < ApplicationController
 
   # PATCH/PUT /students/1
   def update
-    if @student.update(student_params)
-      redirect_to @student, notice: 'Student was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @student.update(student_params)
+        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
+        format.json { render json: @student, status: :ok }
+      else
+        format.html { render :edit }
+        format.json { render json: @student.errors, status: :unprocessable_entity }
+      end
     end
   end
 

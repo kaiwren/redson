@@ -1,0 +1,2 @@
+class Redson::NullForm
+end

@@ -8,18 +8,44 @@ class Redson::View
     @template_element = template_element
     @this_element = template_element ? template_element.clone : target_element
     @model = model
-    if target_element.is('form')
-      @form = Redson::Form.new(target_element)
-      form.input_elements.each do |element|
-        model[element['name']] = element.value
-      end
-      form.ajaxify! do |event|
-        model.save
-      end
-      form.disable_submit_event_propagation!
-      model.api_path = form.action_attribute
-    end
+    @form = initialize_form
     initialize_view_elements
+    @model.register_observer(
+            self, :on => :created
+          ).register_observer(
+            self, :on => :updated
+          ).register_observer(
+            self, :on => :unprocessable_entity
+          )
+  end
+  
+  def model_created_handler(event)
+    Kernel.p :model_created_handler
+  end
+
+  def model_updated_handler(event)
+    Kernel.p :model_updated_handler
+  end
+
+  def model_unprocessable_entity_handler(event)
+    Kernel.p :model_unprocessable_entity_handler
+    model.errors.each do |key, values|
+      target_element.find("input[name=#{model.attributes_namespace}\\[#{key}\\]]").add_class("error")
+    end
+  end
+  
+  def initialize_form
+    return NullForm.new unless target_element.is('form')
+    form = Redson::Form.new(target_element)
+    form.input_elements.each do |element|
+      model[element['name']] = element.value
+    end
+    form.ajaxify! do |event|
+      model.save
+    end
+    form.disable_submit_event_propagation!
+    model.api_path = form.action_attribute
+    form
   end
   
   def initialize_view_elements
