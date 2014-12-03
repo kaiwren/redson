@@ -1,6 +1,6 @@
 # Redson
 
-Redson is a lightweight client side MVsomething (I can't keep up with all the MV* variations these days :P) component framework written in Ruby specifically for Rails applications. It uses the Opal Ruby to js compiler.
+Redson is a lightweight client side MVsomething (I can't keep up with all the MV* variations these days :P) component framework written in Ruby specifically for Rails applications. It uses the Opal Ruby to js compiler, and is an expression of my taste in UI frameworks developed over the years that I've been muddling around in the space.
 
 It builds on top of jQuery's cross-platform implementations of DOM lookup+manipulation and the observer pattern to ensure compatibility and performance.
 
@@ -53,3 +53,11 @@ module Echo
   end
 end
 ```
+
+## Running Specs
+
+Setup and launch the sample rails app. Specs run at /opal_spec
+
+## Performance Benchmarks
+
+Setup and launch the sample rails app. Specs run at /benchmarks and output is logged to the console. The page remains blank. This is normal.

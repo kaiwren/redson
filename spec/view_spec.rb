@@ -1,8 +1,9 @@
 require "spec_helper"
 
 describe Redson::View do
-  class Redson::SampleViewForSpec < Redson::View
-    def initialize_view_elements
+  class Redson::Spec::SampleViewForSpec < Redson::View
+    def initialize
+      initialize_observable
     end
   end
   

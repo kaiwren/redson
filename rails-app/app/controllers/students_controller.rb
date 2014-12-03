@@ -4,15 +4,27 @@ class StudentsController < ApplicationController
   # GET /students
   def index
     @students = Student.all
+    respond_to do |format|
+      format.html
+      format.json { render json: @students}
+    end
   end
 
   # GET /students/1
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @student}
+    end
   end
 
   # GET /students/new
   def new
     @student = Student.new
+    respond_to do |format|
+      format.html
+      format.json { render json: @student}
+    end
   end
 
   # GET /students/1/edit
@@ -23,10 +35,14 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
 
-    if @student.save
-      redirect_to @student, notice: 'Student was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @student.save
+        format.html { redirect_to @student, notice: 'Student was successfully created.' }
+        format.json { render json: @student, status: :created }
+      else
+        format.html { render :new }
+        format.json { render json: @student.errors, status: :unprocessable_entity }
+      end
     end
   end
 

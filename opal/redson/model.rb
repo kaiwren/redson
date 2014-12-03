@@ -1,12 +1,13 @@
 class Redson::Model
   def self.validates_presence_of(key)
   end
-  
-  attr_accessor :api_path
-  
+    
   def initialize
+    @_redson_api_path = nil
     @_redson_state = {}
     @_redson_nested_keys = {}
+    @_redson_observers = `jQuery({})`
+    reset_errors
   end
     
   def []=(key, value)
@@ -24,13 +25,42 @@ class Redson::Model
     end
   end
   
+  def attributes
+    @_redson_state
+  end
+  
+  def reset_errors
+    @_redson_server_validation_errors = {}
+  end
+  
+  def errors
+    @_redson_server_validation_errors
+  end
+  
+  def valid?
+    errors.empty?
+  end
+  
   def [](key)
     @_redson_state[key]
   end
   
+  def api_path
+    @_redson_api_path
+  end
+  
+  def api_path=(path) 
+    @_redson_api_path = path.end_with?(".json") ? path : "#{path}.json"
+  end
+  
   def save
+    raise Redson::Error::ModelApiPathNotSetError.new(self) unless api_path
     HTTP.post(api_path, :payload => @_redson_state) do |response|
-      p response
+      if response.ok?
+        reset_errors
+      else
+        @_redson_server_validation_errors = response.json
+      end
     end
   end
   
@@ -39,6 +69,6 @@ class Redson::Model
   end
   
   def inspect
-    "#{super} #{@_redson_state.inspect} #{api_path}"
+    "#{super}\napi_path: #{api_path}\nattributes:\n#{attributes.inspect}\nerrors:\n#{errors.inspect}"
   end
 end

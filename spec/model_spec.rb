@@ -8,6 +8,37 @@ describe Redson::Model do
     expect(to_keys).to eq(["student", "name", "age"])
   end
   
+  context "api calls" do
+    it "append .json to api_paths that don't have it to keep Rails happy because Content-Type set by jquery-opal is insufficient" do
+      model.api_path = "/api"
+      expect(model.api_path).to eq("/api.json")
+    end
+    
+    it "leaves api_path that ends with .json unmodified" do
+      model.api_path = "/api.json"
+      expect(model.api_path).to eq("/api.json")
+    end
+    
+    it "raises a ModelApiPathNotSetError if a save is triggered without an api_path" do
+      expect {
+        model.save
+      }.to raise_error(Redson::Error::ModelApiPathNotSetError)
+    end
+    
+    it "does not raise an error if a save is triggered with an api_path being set" do
+      model.api_path = "/api"
+      expect {
+        model.save
+      }.not_to raise_error
+    end
+  end
+  
+  context "observers" do
+    it "are notified when an event they have registered for is raised" do
+      
+    end
+  end
+  
   context "attributes" do
     it "allows an attribute to be written to and read from it" do
       model['age'] = '5'

@@ -18,7 +18,6 @@ class Redson::View
       end
       form.disable_submit_event_propagation!
       model.api_path = form.action_attribute
-      p model
     end
     initialize_view_elements
   end
