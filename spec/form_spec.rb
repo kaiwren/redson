@@ -24,7 +24,8 @@ describe Redson::Form do
 EOFORM
   end
   
-  let(:form) { Redson::Form.new(form_element) }
+  let(:model) { Redson::Form::Model.new }
+  let(:form) { Redson::Form::View.new(model, form_element) }
   
   context "initialization" do
     it "succeeds with a form element is passed to it" do
@@ -35,7 +36,7 @@ EOFORM
 
     it "fails with an exception when an element other than a form is passed in" do
       expect(lambda {
-        Redson::Form.new(Element.new('div'))
+        Redson::Form::View.new(model, Element.new('div'))
       }).to raise_error
     end
   end

@@ -1,6 +1,7 @@
 module Student
-  class View < Redson::View
+  class View < Redson::Form::View
     def initialize_view_elements
+      super
     end
     
     def student_name_keyup_handler(event)

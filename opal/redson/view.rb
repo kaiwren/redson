@@ -3,12 +3,12 @@ class Redson::View
               :template_element, :model, :form
   
   
-  def initialize(model, target_element, template_element)
+  def initialize(model, target_element, template_element = nil)
     @target_element = target_element
     @template_element = template_element
     @this_element = template_element ? template_element.clone : target_element
+    @this_element = `jQuery(self.this_element)`
     @model = model
-    @form = initialize_form
     initialize_view_elements
     @model.register_observer(
             self, :on => :created
@@ -33,21 +33,7 @@ class Redson::View
       target_element.find("input[name=#{model.attributes_namespace}\\[#{key}\\]]").add_class("error")
     end
   end
-  
-  def initialize_form
-    return NullForm.new unless target_element.is('form')
-    form = Redson::Form.new(target_element)
-    form.input_elements.each do |element|
-      model[element['name']] = element.value
-    end
-    form.ajaxify! do |event|
-      model.save
-    end
-    form.disable_submit_event_propagation!
-    model.api_path = form.action_attribute
-    form
-  end
-  
+    
   def initialize_view_elements
     raise "initialize_view_elements must be overriden in #{self.class}"
   end
