@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "opal-jquery"
   spec.add_runtime_dependency "opal-rails"
+  spec.add_runtime_dependency "rails", "~> 4.0"
 
-  spec.add_development_dependency "rails", "~> 4.0"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "guard-livereload"
   spec.add_development_dependency "guard-rake"
