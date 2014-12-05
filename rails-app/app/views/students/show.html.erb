@@ -10,5 +10,10 @@
   <%= @student.age %>
 </p>
 
+<p>
+  <strong>Created At:</strong>
+  <%= @student.created_at %>
+</p>
+
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

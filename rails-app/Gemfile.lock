@@ -4,6 +4,7 @@ PATH
     redson (0.0.1)
       opal-jquery
       opal-rails
+      rails (~> 4.0)
 
 GEM
   remote: https://rubygems.org/

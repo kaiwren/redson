@@ -1,3 +1,4 @@
+require "redson/logger"
 require "redson/ext/element"
 require "redson/version"
 require "redson/error"

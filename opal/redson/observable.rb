@@ -15,12 +15,21 @@ module Redson
       handler_method_name = handler_method_name ? "#{handler_method_name}" : generate_default_handler_name_for(event_name)
       handler_method_name = "$#{handler_method_name}"
       scoped_event_name = Observable.scoped_event_name(event_name)
-      `this._redson_observers.on(scoped_event_name, jQuery.proxy(observer[handler_method_name], observer))`
+      
+      %x{
+        self._redson_observers.on(scoped_event_name, function(event) {
+          Opal.Redson.$l().$d("Dispatching '" + scoped_event_name + "' to " + observer.toString());
+          observer[handler_method_name](event);
+        });
+      }
+      
+      Redson.l.d "Registered #{observer} for '#{event_name}' on #{self}"
       self
     end
 
     def notify_observers(event_name)
       scoped_event_name = Observable.scoped_event_name(event_name)
+      Redson.l.d "Event '#{event_name}' raised by #{self}"
       `this._redson_observers.trigger(scoped_event_name)`
       self
     end
