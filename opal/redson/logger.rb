@@ -64,9 +64,13 @@ module Redson
     def log(severity, message);end
   end
   
-  @_redson_logger = Logger.new
+  @_redson_logger = NullLogger.new
   
-  def self.mute_logger!
+  def self.enable_logger!
+    @_redson_logger = Logger.new
+  end
+  
+  def self.disable_logger!
     @_redson_logger = NullLogger.new
   end
   

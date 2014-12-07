@@ -18,7 +18,6 @@ module Student
     
     def student_name_keyup_handler(event)
       p "student_name_keyup_handler"
-      p model
     end
     
     def student_age_keyup_handler(event)

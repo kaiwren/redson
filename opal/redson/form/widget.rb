@@ -13,15 +13,15 @@ module Redson
       end
 
       def model_created_handler(event)
-        notify_observers('created')
+        bubble_up(event)
       end
 
       def model_updated_handler(event)
-        notify_observers('updated')
+        bubble_up(event)
       end
 
       def model_unprocessable_entity_handler(event)
-        notify_observers('unprocessable_entity')
+        bubble_up(event)
       end
     end
   end

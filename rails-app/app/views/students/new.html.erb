@@ -6,18 +6,13 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('form.new_student').each(function(n){
-      var widget = Opal.Student.Widget.$new($(this));
-      widget.$registerObserver(
-        {
-          widget_created_handler: function(event){
-            window.location.href = "/students";
-          }
-        },
-        {
-          on: 'created'
+    var widget = Opal.Student.Widget.$new($('form.new_student'));
+    widget.$registerObserver({
+        widget_created_handler: function(redsonEvent){
+          window.location.href = redsonEvent.location();
         }
-      );
-    });
+      },
+      { on: 'created' }
+    );
   });
 </script>

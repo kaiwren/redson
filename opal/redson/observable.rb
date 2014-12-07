@@ -31,18 +31,26 @@ module Redson
           Opal.Redson.$l().$e(handler_method_name + " on Observer " + observer + " is not a function and can't be used as an event handler'");
         }
         
-        self._redson_observers.on(scoped_event_name, function(event) {
-          Opal.Redson.$l().$d("Dispatching '" + scoped_event_name + "' from " + self.toString() + "' to " + observer.toString());
-          observer[handler_method_name](event);
+        self._redson_observers.on(scoped_event_name, function(jQueryEvent, redsonEvent) {
+          Opal.Redson.$l().$d("Dispatching '" + redsonEvent.$scoped_event_name() + "' from " + self.toString() + "' to " + observer.toString());
+          observer[handler_method_name](redsonEvent);
         });
       }
       self
     end
-
-    def notify_observers(event_name)
-      scoped_event_name = Observable.scoped_event_name(event_name)
-      Redson.l.d "Event '#{event_name}' raised by #{self}"
-      `this._redson_observers.trigger(scoped_event_name)`
+    
+    def bubble_up(event)
+      notify_observers(event.name, event, {})
+    end
+    
+    def notify_observers(event_name, parent_event = nil, attributes = nil)
+      event = Event.new(event_name, self, parent_event, attributes)
+      scoped_event_name = event.scoped_event_name
+      source = event.source
+      parent_event = event.parent_event
+      attributes = event.attributes
+      Redson.l.d "Event '#{scoped_event_name}' with source #{self}, parent_event #{parent_event} and attributes #{attributes.inspect}"
+      `this._redson_observers.trigger(scoped_event_name, event)`
       self
     end
 

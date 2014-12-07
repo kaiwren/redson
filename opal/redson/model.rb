@@ -70,18 +70,18 @@ class Redson::Model
   def process_response(response)
     if response.status_code == 201
       reset_errors
-      puts :created
-      notify_observers(:created)
+      Redson.l.d "Model successfully created"
+      notify_observers(:created, nil, :location => response.get_header('location'))
     elsif response.status_code == 200
       reset_errors
-      puts :updated
+      Redson.l.d "Model successfully updated"
       notify_observers(:updated)
     elsif response.status_code == 422
       @_redson_server_validation_errors = response.json
-      puts :unprocessable_entity
+      Redson.l.d "Model failed with #{@_redson_server_validation_errors.inspect}"
       notify_observers(:unprocessable_entity)
     else
-      puts "Unhandled Response Status #{response.status_code}, expected 200, 201 or 422"
+      Redson.l.e "HTTP Unhandled Response Status #{response.status_code}, expected 200, 201 or 422"
     end
   end
   
