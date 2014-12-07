@@ -8,27 +8,6 @@ Here's what it looks like at the moment. WIP etc.
 
 ## Adding a little smartness to HTML
 
-_In your HTML view_
-```xml
-<div id="echoes">
-  <div class="echo"></div>
-  <hr/>
-  <div class="echo"></div>
-</div>
-<div id="r-templates" style="display: none;">
-  <div class="r-template echo">
-    <input class="input"/>
-    <span class="output"/>
-  </div>
-</div>
-```
-
-```javascript
-$(document).ready(function(){
-  Opal.Echo.Widget.$render_all_in_document();
-});
-```
-
 _Under app/assets/javascripts in your Rails app_
 ```ruby
 module Echo
@@ -52,10 +31,85 @@ module Echo
 end
 ```
 
+_In your HTML view_
+```xml
+<div id="echoes">
+  <div class="echo"></div>
+  <hr/>
+  <div class="echo"></div>
+</div>
+<div id="r-templates" style="display: none;">
+  <div class="r-template echo">
+    <input class="input"/>
+    <span class="output"/>
+  </div>
+</div>
+```
+
+```javascript
+$(document).ready(function(){
+  Opal.Echo.Widget.$render_all_in_document();
+});
+```
+
 ## Making a form smarter using the Redson::Form Widget
 
-_In your HTML view, usually new.html.erb_
+_Under app/assets/javascripts in your Rails app_
+```ruby
+module Student
+  class Widget < Redson::Form::Widget
+    disable_template!
+    
+    bind "input[name='student[name]']", :to => 'student[name]', :notify_on => 'keyup', :notification_handler => :student_name_keyup_handler
+    bind "input[name='student[age]']", :to => 'student[age]', :notify_on => 'keyup', :notification_handler => :student_age_keyup_handler
+  end
+  
+  class View < Redson::Form::View
+    def model_created_handler(event)
+    end
 
+    def model_updated_handler(event)
+    end
+
+    def model_unprocessable_entity_handler(event)
+    end
+  
+    def student_name_keyup_handler(event)
+    end
+  
+    def student_age_keyup_handler(event)
+    end
+  end
+  
+  class Model < Redson::Form::Model
+  end
+end
+```
+
+```ruby
+class StudentsController < ApplicationController
+  ...
+  
+  # POST /students
+  def create
+    @student = Student.new(student_params)
+
+    respond_to do |format|
+      if @student.save
+        format.html { redirect_to @student, notice: 'Student was successfully created.' }
+        format.json { render json: @student, status: :created, location: student_url(@student) }
+      else
+        format.html { render :new }
+        format.json { render json: @student.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  ...
+end
+```
+
+_A typical new.html.erb_
 ```xml
 <form accept-charset="UTF-8" action="/students" class="new_student" id="new_student" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="VaRmf+SWll5NSJPggOQ2I2zYMxYGEP53HBdTzzLjIMw=" /></div>
 
@@ -89,38 +143,6 @@ _In your HTML view, usually new.html.erb_
     );
   });
 </script>
-```
-
-_Under app/assets/javascripts in your Rails app_
-```ruby
-module Student
-  class Widget < Redson::Form::Widget
-    disable_template!
-    
-    bind "input[name='student[name]']", :to => 'student[name]', :notify_on => 'keyup', :notification_handler => :student_name_keyup_handler
-    bind "input[name='student[age]']", :to => 'student[age]', :notify_on => 'keyup', :notification_handler => :student_age_keyup_handler
-  end
-  
-  class View < Redson::Form::View
-    def model_created_handler(event)
-    end
-
-    def model_updated_handler(event)
-    end
-
-    def model_unprocessable_entity_handler(event)
-    end
-  
-    def student_name_keyup_handler(event)
-    end
-  
-    def student_age_keyup_handler(event)
-    end
-  end
-  
-  class Model < Redson::Form::Model
-  end
-end
 ```
 
 ## Running Specs
