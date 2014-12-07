@@ -10,12 +10,12 @@
       var widget = Opal.Student.Widget.$new($(this));
       widget.$registerObserver(
         {
-          widget_unprocessable_entity_handler: function(event){
-             console.log(JSON.stringify(event)); 
+          widget_created_handler: function(event){
+            window.location.href = "/students";
           }
         },
         {
-          on: 'unprocessable_entity'
+          on: 'created'
         }
       );
     });

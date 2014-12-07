@@ -8,7 +8,15 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('form.edit_student').each(function(n){
-      Opal.Student.Widget.$new($(this));
+      Opal.Student.Widget.$new($(this)).$registerObserver({
+          widget_unprocessable_entity_handler: function(event){
+             console.log(JSON.stringify(event)); 
+          }
+        },
+        {
+          on: 'unprocessable_entity'
+        }
+      );
     });
   });
 </script>
