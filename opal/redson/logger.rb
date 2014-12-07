@@ -2,13 +2,21 @@ module Redson
   class Logger
     attr_accessor :level
     
-    DEBUG = "D"
-    INFO = "I"
-    WARN = "W"
-    ERROR = "E"
-    FATAL = "F"
-    UNKNOWN = "U"
+    DEBUG = 1
+    INFO = 2
+    WARN = 3
+    ERROR = 4
+    FATAL = 5
+    UNKNOWN = 6
     
+    STRING_MAP = {
+      1 => 'D',
+      2 => 'I',
+      3 => 'W',
+      4 => 'E',
+      5 => 'F',
+      6 => 'U'
+    }
     def initialize
       self.level = DEBUG
     end
@@ -38,8 +46,9 @@ module Redson
     end
     
     def log(severity, message)
-      if(severity.equal?(@level))
-        `console.log(#@level + ' | ' + Date.now() + ' | ' + message)`
+      if(severity >= @level)
+        code = STRING_MAP[severity]
+        `console.log(code + ' | ' + Date.now() + ' | ' + message)`
       end
     end
   end

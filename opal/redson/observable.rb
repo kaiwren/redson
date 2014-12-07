@@ -8,7 +8,14 @@ module Redson
       `this._redson_observers = jQuery({})`
       @_redson_cached_observer_names = {}
     end
-
+    
+    def registerObserver(js_observer_hash, js_options_hash)
+      observer = Redson.js_object_to_rb_hash(js_observer_hash)
+      options = Redson.js_object_to_rb_hash(js_options_hash)
+      wrapper = Redson::AccessoriedHash.new(observer)
+      register_observer(wrapper, options)
+    end
+    
     def register_observer(observer, options = {})
       event_name = options[:on]
       handler_method_name = options[:notify]
@@ -16,14 +23,19 @@ module Redson
       handler_method_name = "$#{handler_method_name}"
       scoped_event_name = Observable.scoped_event_name(event_name)
       
+      Redson.l.d "Observer #{observer} registering for '#{event_name}' on #{self}"
       %x{
+        if(observer[handler_method_name] === undefined){
+          Opal.Redson.$l().$e("Observer " + observer + " has no handler with name " + handler_method_name);
+        }else if(typeof observer[handler_method_name] !== 'function') {
+          Opal.Redson.$l().$e(handler_method_name + " on Observer " + observer + " is not a function and can't be used as an event handler'");
+        }
+        
         self._redson_observers.on(scoped_event_name, function(event) {
-          Opal.Redson.$l().$d("Dispatching '" + scoped_event_name + "' to " + observer.toString());
+          Opal.Redson.$l().$d("Dispatching '" + scoped_event_name + "' from " + self.toString() + "' to " + observer.toString());
           observer[handler_method_name](event);
         });
       }
-      
-      Redson.l.d "Registered #{observer} for '#{event_name}' on #{self}"
       self
     end
 

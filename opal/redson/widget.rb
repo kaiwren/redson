@@ -13,7 +13,9 @@ class Redson::Widget
   KEY_MODEL_KLASS_NAME = 'model_klass_name'
   KEY_USE_TEMPLATE = 'use_template'
   
-  attr_reader :view
+  include Redson::Observable
+  
+  attr_reader :view, :model
   
   def self.inherited(base_klass)
     base_klass.initialize_widget_klass
@@ -28,6 +30,7 @@ class Redson::Widget
               using_template? ? Element.find!(template_element_matcher) : nil
               )
     setup_bindings
+    initialize_observable
   end
   
   def setup_bindings

@@ -7,7 +7,17 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('form.new_student').each(function(n){
-      Opal.Student.Widget.$new($(this));
+      var widget = Opal.Student.Widget.$new($(this));
+      widget.$registerObserver(
+        {
+          widget_unprocessable_entity_handler: function(event){
+             console.log(JSON.stringify(event)); 
+          }
+        },
+        {
+          on: 'unprocessable_entity'
+        }
+      );
     });
   });
 </script>
