@@ -50,7 +50,7 @@ module Redson
         code = STRING_MAP[severity]
         %x{
           var timestamp = Date.now();
-          timestamp = timestamp - (Math.floor(timestamp / 1e5) * 1e5)
+          timestamp = timestamp - (Math.floor(timestamp / 1e6) * 1e6)
           console.log(code + ' | ' + timestamp + ' | ' + message);
         }
       end
