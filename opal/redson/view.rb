@@ -61,10 +61,14 @@ class Redson::View
   
   def bind(element_matcher, to, event_name_to_update_on, notification_handler = nil)
     element = this_element.find!(element_matcher)
+    Redson.l.d("View #{self} binds #{element_matcher} to #{model}\##{to} on #{event_name_to_update_on} with handler #{self}\##{notification_handler}");
     element.on(event_name_to_update_on) do |event|
       model[to] = element.value
       notification_handler_method = self.method(notification_handler)
-      notification_handler_method.call(event) if notification_handler_method
+      if notification_handler_method
+        Redson.l.i("Dispatching #{event} from #{self} to #{self}\##{notification_handler}");
+        notification_handler_method.call(event) 
+      end
     end
   end
 end
