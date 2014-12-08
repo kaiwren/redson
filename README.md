@@ -15,7 +15,7 @@ Goals:
 * Make developing and debugging when using observers easy
 * Make writing tests easy
 
-Here's what it looks like at the moment. WIP etc.
+Redson is currently in alpha and under active development. Here are some examples of what it looks like at the moment.
 
 ## Decorate mode: Make simple HTML smarter
 
