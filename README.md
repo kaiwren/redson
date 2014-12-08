@@ -1,6 +1,6 @@
 # Redson
 
-Redson is an opininated client side component framework for Ruby on Rails applications. 
+Redson is an opinionated client side component framework for Ruby on Rails applications. 
 
 It is written in Ruby using the Opal Ruby to Javascript compiler.
 
