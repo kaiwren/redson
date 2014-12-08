@@ -1,10 +1,10 @@
 class Redson::View
+  KEY_PUBLISHED_EVENTS = "published_events"
   include Redson::Observable
   
   attr_reader :target_element, :this_element, 
               :template_element, :model, :form
-  
-  
+
   def initialize(model, target_element, template_element = nil)
     @target_element = target_element
     @template_element = template_element
@@ -58,12 +58,13 @@ class Redson::View
   def render
     target_element.append(this_element) unless target_element == this_element
   end
-      
-  def bind(element_matcher, to, event_name_to_update_on, notification_handler)
+  
+  def bind(element_matcher, to, event_name_to_update_on, notification_handler = nil)
     element = this_element.find!(element_matcher)
     element.on(event_name_to_update_on) do |event|
       model[to] = element.value
-      self.method(notification_handler).call(event)
+      notification_handler_method = self.method(notification_handler)
+      notification_handler_method.call(event) if notification_handler_method
     end
   end
 end

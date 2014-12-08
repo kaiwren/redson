@@ -32,7 +32,7 @@ module Redson
         }
         
         self._redson_observers.on(scoped_event_name, function(jQueryEvent, redsonEvent) {
-          Opal.Redson.$l().$d("Dispatching '" + redsonEvent.$scoped_event_name() + "' from " + self.toString() + "' to " + observer.toString());
+          Opal.Redson.$l().$i("Dispatching '" + redsonEvent.$scoped_event_name() + "' from " + self.toString() + "' to " + observer.toString());
           observer[handler_method_name](redsonEvent);
         });
       }
@@ -53,7 +53,7 @@ module Redson
       source = event.source
       parent_event = event.parent_event
       attributes = event.attributes
-      Redson.l.d "Event '#{scoped_event_name}' triggered \nsource: #{self}\nparent_event: #{parent_event}\nattributes: #{attributes.inspect}"
+      Redson.l.i "Event '#{scoped_event_name}' triggered \nsource: #{self}\nparent_event: #{parent_event}\nattributes: #{attributes.inspect}"
       `this._redson_observers.trigger(scoped_event_name, event)`
       self
     end

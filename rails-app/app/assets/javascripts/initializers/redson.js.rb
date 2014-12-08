@@ -1,1 +1,1 @@
-Redson.enable_logger!
+Redson.enable_logger!(Redson::Logger::INFO)
