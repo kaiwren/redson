@@ -172,8 +172,7 @@ form.busy .activity_indicator {
   });
 </script>
 ```
-
-## Debugging
+#### Debugging
 
 Writing <code>\`debugger\`</code> anywhere in your client side Ruby code will set a breakpoint and trigger the browsers js debugger.
 
@@ -196,10 +195,12 @@ Redson.l.d('message')                       # Log 'message' at DEBUG severity.
 
 ```
 
-## Running Specs
+## Contributing to Redson
+
+### Running Specs
 
 Setup and launch the sample rails app. Specs run at /opal_spec
 
-## Performance Benchmarks
+### Performance Benchmarks
 
 Setup and launch the sample rails app. Specs run at /benchmarks and output is logged to the console. The page remains blank. This is normal.
