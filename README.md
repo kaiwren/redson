@@ -187,7 +187,7 @@ form.busy .activity_indicator {
         //= require opal_ujs
         //= require redson
 * Write Ruby code under app/assets/javascripts with a `.js.rb` or `.rb` file extension
-* See the [sample app](rails-app/app/assests/javascripts) for examples of widgets
+* See the [sample app](rails-app/app/assets/javascripts) for examples of widgets
 
 #### Debugging
 
