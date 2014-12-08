@@ -9,7 +9,7 @@
     var widget = Opal.Student.Widget.$new($('form.new_student'));
     widget.$registerObserver({
         widget_created_handler: function(redsonEvent){
-          window.location.href = redsonEvent.location();
+          //window.location.href = redsonEvent.location();
         }
       },
       { on: 'created' }

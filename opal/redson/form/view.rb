@@ -8,6 +8,24 @@ module Redson
         trigger_save_on_submit
       end
       
+      def model_request_started_handler(event)
+        self.busy!
+      end
+
+      def model_request_ended_handler(event)
+        self.available!
+      end
+      
+      def busy!
+        submit_element.attr('disabled', 'disabled')
+        this_element.add_class('busy')
+      end
+
+      def available!
+        submit_element.remove_attr('disabled')
+        this_element.remove_class('busy')
+      end
+      
       def trigger_save_on_submit
         %x{
           self.$this_element().on('submit', function(event) {

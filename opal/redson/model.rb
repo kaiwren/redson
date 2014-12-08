@@ -61,24 +61,27 @@ class Redson::Model
   def save
     raise Redson::Error::ModelApiPathNotSetError.new(self) unless api_path
     if self['_method'] == 'patch'
+      notify_observers(:request_started)
       HTTP.put(api_path, :payload => @_redson_state) { |response| process_response(response) }
     else
+      notify_observers(:request_started)
       HTTP.post(api_path, :payload => @_redson_state) { |response| process_response(response) }
     end
   end
   
   def process_response(response)
+    notify_observers(:request_ended)
     if response.status_code == 201
       reset_errors
-      Redson.l.d "Model successfully created"
-      notify_observers(:created, nil, :location => response.get_header('location'))
+      Redson.l.d "Model #{self} successfully created"
+      notify_observers(:created, :location => response.get_header('location'))
     elsif response.status_code == 200
       reset_errors
-      Redson.l.d "Model successfully updated"
-      notify_observers(:updated)
+      Redson.l.d "Model #{self} successfully updated"
+      notify_observers(:updated, :location => response.get_header('location'))
     elsif response.status_code == 422
       @_redson_server_validation_errors = response.json
-      Redson.l.d "Model failed with #{@_redson_server_validation_errors.inspect}"
+      Redson.l.d "Model #{self} failed with #{self.errors.inspect}"
       notify_observers(:unprocessable_entity)
     else
       Redson.l.e "HTTP Unhandled Response Status #{response.status_code}, expected 200, 201 or 422"

@@ -1,0 +1,1 @@
+Redson.enable_logger!

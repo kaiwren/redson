@@ -48,7 +48,11 @@ module Redson
     def log(severity, message)
       if(severity >= @level)
         code = STRING_MAP[severity]
-        `console.log(code + ' | ' + Date.now() + ' | ' + message)`
+        %x{
+          var timestamp = Date.now();
+          timestamp = timestamp - (Math.floor(timestamp / 1e5) * 1e5)
+          console.log(code + ' | ' + timestamp + ' | ' + message);
+        }
       end
     end
   end
@@ -64,10 +68,9 @@ module Redson
     def log(severity, message);end
   end
   
-  @_redson_logger = NullLogger.new
-  
-  def self.enable_logger!
+  def self.enable_logger!(level = Redson::Logger::DEBUG)
     @_redson_logger = Logger.new
+    @_redson_logger.level = level
   end
   
   def self.disable_logger!
@@ -81,4 +84,6 @@ module Redson
   def self.l
     @_redson_logger
   end
+  
+  self.disable_logger!
 end

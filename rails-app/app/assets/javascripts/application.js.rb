@@ -3,6 +3,7 @@
 //= require lodash
 //= require benchmark
 //= require redson
+//= require_tree ./initializers
 //= require_tree ./benchmarks
 //= require_tree ./echo
 //= require_tree ./student

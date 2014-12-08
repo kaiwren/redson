@@ -12,6 +12,10 @@ class Redson::View
     @this_element = `jQuery(self.this_element)`
     @model = model
     @model.register_observer(
+            self, :on => :request_started
+          ).register_observer(
+            self, :on => :request_ended
+          ).register_observer(
             self, :on => :created
           ).register_observer(
             self, :on => :updated
@@ -24,18 +28,27 @@ class Redson::View
   end
   
   def initialize_view_elements
+    Redson.l.d("Template method #{self}#initialize_view_elements called. Override to do something different.")
+  end
+  
+  def model_request_started_handler(event)
+    Redson.l.d("Handler #{self}#model_request_started_handler called. Override to do something different.")
+  end
+
+  def model_request_ended_handler(event)
+    Redson.l.d("Handler #{self}#model_request_ended_handler called. Override to do something different.")
   end
   
   def model_created_handler(event)
-    raise Redson::Error::TemplateMethodNotOverridenError.new('Redson::View#model_created_handler')
+    Redson.l.d("Handler #{self}#model_created_handler called. Override to do something different.")
   end
 
   def model_updated_handler(event)
-    raise Redson::Error::TemplateMethodNotOverridenError.new('Redson::View#model_updated_handler')
+    Redson.l.d("Handler #{self}#model_updated_handler called. Override to do something different.")
   end
 
   def model_unprocessable_entity_handler(event)
-    raise Redson::Error::TemplateMethodNotOverridenError.new('Redson::View#model_uprocessable_entity_handler')
+    Redson.l.d("Handler #{self}#model_uprocessable_entity_handler called. Override to do something different." )
   end
   
   def find_element!(matcher)

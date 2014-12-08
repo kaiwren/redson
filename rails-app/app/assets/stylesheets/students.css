@@ -6,3 +6,11 @@
 form.new_student .error {
   border: red 1px solid;
 }
+
+form.busy .activity_indicator {
+  display: inline;
+}
+
+form .activity_indicator {
+  display: none;
+}

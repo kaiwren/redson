@@ -40,16 +40,20 @@ module Redson
     end
     
     def bubble_up(event)
-      notify_observers(event.name, event, {})
+      bubble_up_as_new_event(event.name, event, {})
     end
     
-    def notify_observers(event_name, parent_event = nil, attributes = nil)
+    def notify_observers(event_name, attributes = nil)
+      bubble_up_as_new_event(event_name, nil, attributes)
+    end
+    
+    def bubble_up_as_new_event(event_name, parent_event = nil, attributes = nil)
       event = Event.new(event_name, self, parent_event, attributes)
       scoped_event_name = event.scoped_event_name
       source = event.source
       parent_event = event.parent_event
       attributes = event.attributes
-      Redson.l.d "Event '#{scoped_event_name}' with source #{self}, parent_event #{parent_event} and attributes #{attributes.inspect}"
+      Redson.l.d "Event '#{scoped_event_name}' triggered \nsource: #{self}\nparent_event: #{parent_event}\nattributes: #{attributes.inspect}"
       `this._redson_observers.trigger(scoped_event_name, event)`
       self
     end
