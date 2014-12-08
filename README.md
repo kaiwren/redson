@@ -172,6 +172,23 @@ form.busy .activity_indicator {
   });
 </script>
 ```
+
+## Getting Started
+
+#### Setup
+
+* Add this to the Gemfile at the root of your Rails app and bundle update
+    
+        gem 'opal-rails'
+        gem 'redson', :git => "https://github.com/kaiwren/redson.git"
+* Add this to `application.js` before `//= require_tree .`
+        
+        //= require opal
+        //= require opal_ujs
+        //= require redson
+* Write Ruby code under app/assets/javascripts with a `.js.rb` or `.rb` file extension
+* See the [sample app](rails-app/app/assests/javascripts) for examples of widgets
+
 #### Debugging
 
 Writing <code>\`debugger\`</code> anywhere in your client side Ruby code will set a breakpoint and trigger the browsers js debugger.
