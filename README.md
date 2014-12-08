@@ -175,9 +175,9 @@ form.busy .activity_indicator {
 
 ## Debugging
 
-Writing `\`debugger\`` anywhere in your client side Ruby code will set a breakpoint and trigger the browsers js debugger.
+Writing <code>\`debugger\`</code> anywhere in your client side Ruby code will set a breakpoint and trigger the browsers js debugger.
 
-All event/observer wiring is logged to browser console make development and debugging easy. This is opt-in - you'll need to turn it on if you need it.
+All event/observer wiring is logged to browser console to make development and debugging easy. This is opt-in - you'll need to turn it on if you need it.
 
 ```ruby
 Redson.enable_logger!                       # Logs at severity DEBUG by
