@@ -193,6 +193,8 @@ form.busy .activity_indicator {
 
 Writing <code>\`debugger\`</code> anywhere in your client side Ruby code will set a breakpoint and trigger the browsers js debugger.
 
+If you need to debug a Ruby exception, just set a breakpoint where the error is caught to show the backtrace/stack in your javascript debugger. Opal's generated js is close to the original Ruby, so unwinding this backtrace is fairly easy.
+
 All event/observer wiring is logged to browser console to make development and debugging easy. This is opt-in - you'll need to turn it on if you need it.
 
 ```ruby
