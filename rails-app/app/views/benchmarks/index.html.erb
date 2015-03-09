@@ -1,19 +1,29 @@
 <script type="text/javascript">
-  console.log("Testing all factorial implementations with n=5");
-  console.log(Opal.Benchmarks.$fact(5));
-  console.log(JS.Benchmarks.fact(5));
-  console.log(Opal.Benchmarks.$fact_inline_js(5));
+  var factorial_n = 6;
+  var fibonacci_n = 10;
+  console.log("Testing all factorial implementations with n="+ factorial_n + ", result should be 720");
+  console.log(Opal.Benchmarks.$fact(factorial_n));
+  console.log(JS.Benchmarks.fact(factorial_n));
+  console.log(Opal.Benchmarks.$fact_inline_js(factorial_n));
+  console.log('---')
+  console.log("Testing all fibonacci implementations with n="+ fibonacci_n + ", result should be 55");
+  console.log(Opal.Benchmarks.$fib(fibonacci_n));
+  console.log(JS.Benchmarks.fib(fibonacci_n));
+  console.log(Opal.Benchmarks.$fib_inline_js(fibonacci_n));
+  
   console.log("Running benchmarks, please wait...");
-  var suite = new Benchmark.Suite;
+  
+  var suite_factorial = new Benchmark.Suite;
+  var suite_fibonacci = new Benchmark.Suite;
 
-  suite.add('Opal#factorial', function() {
-    Opal.Benchmarks.$fact(5);
+  suite_factorial.add('Opal#factorial', function() {
+    Opal.Benchmarks.$fact(factorial_n);
   })
   .add('JS#factorial', function() {
-    JS.Benchmarks.fact(5);
+    JS.Benchmarks.fact(factorial_n);
   })
   .add('RubyWithInlineJS#factorial', function() {
-    Opal.Benchmarks.$fact_inline_js(5);
+    Opal.Benchmarks.$fact_inline_js(factorial_n);
   })
   .on('cycle', function(event) {
     console.log(String(event.target));
@@ -21,5 +31,22 @@
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').pluck('name'));
   })
-  .run({ 'async': true });
+  .run();
+    
+  suite_fibonacci.add('Opal#fibonacci', function() {
+    Opal.Benchmarks.$fib(fibonacci_n);
+  })
+  .add('JS#fibonacci', function() {
+    JS.Benchmarks.fib(fibonacci_n);
+  })
+  .add('RubyWithInlineJS#fibonacci', function() {
+    Opal.Benchmarks.$fib_inline_js(fibonacci_n);
+  })
+  .on('cycle', function(event) {
+    console.log(String(event.target));
+  })
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+  })
+  .run();
 </script>

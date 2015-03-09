@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/sidu/Work/spikes/redson
+  remote: /Users/sidu/Work/redson
   specs:
     redson (0.0.1)
       opal-jquery
